@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=600, height=600, initial-scale=1.0, user-scalable=no" />
+    <meta
+      name="description"
+      content="A Meta Ray-Ban Display web app for checking how a chair affects room layout, VR space, and pet safety."
+    />
+    <meta name="mrbd-web-app-capable" content="yes" />
+    <title>Future Footprint</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app" aria-label="Future Footprint spatial recommendation">
+      <section class="hud" aria-live="polite">
+        <span id="clock">--:--</span>
+        <strong>Future Footprint</strong>
+        <span id="stepIndex">1/6</span>
+      </section>
+
+      <section class="viewport" id="viewport">
+        <div class="room-map" aria-hidden="true">
+          <span class="zone desk">Desk</span>
+          <span class="zone sofa">Sofa</span>
+          <span class="zone window">Window</span>
+          <span class="vr-area"></span>
+          <span class="pet-path"></span>
+          <span class="chair-dot" id="chairDot"></span>
+          <span class="risk-ring" id="riskRing"></span>
+        </div>
+
+        <article class="card">
+          <p class="eyebrow" id="eyebrow">Ready</p>
+          <h1 id="title">Check the chair before buying</h1>
+          <p id="copy">
+            This glasses app compares the chair footprint with your room, VR area, and pet routes.
+          </p>
+          <ul id="facts" class="facts"></ul>
+        </article>
+      </section>
+
+      <nav class="actions" aria-label="Recommendations">
+        <button class="focusable action" id="prevBtn" type="button">Prev</button>
+        <button class="focusable action primary" id="selectBtn" type="button">Start</button>
+        <button class="focusable action" id="nextBtn" type="button">Next</button>
+      </nav>
+
+      <p class="hint" id="hint">Use arrows to move. Press Enter to select.</p>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
