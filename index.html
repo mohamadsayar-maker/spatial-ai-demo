@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=600, height=600, initial-scale=1.0, user-scalable=no" />
     <meta
       name="description"
-      content="A Meta Ray-Ban Display prototype that simulates asking Meta for an opinion about a chair."
+      content="A Meta Ray-Ban Display prototype that fakes a chair photo capture and analysis flow."
     />
     <meta name="mrbd-web-app-capable" content="yes" />
     <title>Chair Sense</title>
@@ -13,37 +13,23 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="app" aria-label="Chair Sense prototype">
-      <header class="topbar">
-        <span id="clock">--:--</span>
-        <strong>Chair Sense</strong>
-        <span id="stepCount">1/5</span>
-      </header>
+    <main id="app" class="app state-idle" aria-label="Chair Sense fake capture prototype" aria-live="polite">
+      <img class="capture" src="assets/user-chair-capture.jpg" alt="Simulated captured photo of the chair" />
+      <div class="flash" aria-hidden="true"></div>
+      <div class="reticle" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="scan" aria-hidden="true"></div>
 
-      <section id="scene" class="scene state-idle" aria-live="polite">
-        <img class="capture" src="assets/chair-capture.jpg" alt="Captured lounge chair in a showroom" />
-        <div class="shade"></div>
-        <div class="reticle" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="scan" aria-hidden="true"></div>
-
-        <section class="response">
-          <p class="label" id="label">Standby</p>
-          <h1 id="title">Point at the chair</h1>
-          <p id="copy">"Hey Meta, what do you think about this?"</p>
-          <ul id="signals" class="signals"></ul>
-        </section>
+      <section class="panel" aria-label="Analysis response">
+        <p class="label" id="label">Captured</p>
+        <h1 id="title">Looking at the chair</h1>
+        <p id="copy">Using the photo now.</p>
+        <ul id="signals" class="signals"></ul>
       </section>
-
-      <nav class="actions" aria-label="Prototype controls">
-        <button class="focusable action" id="prevBtn" type="button">Prev</button>
-        <button class="focusable action primary" id="primaryBtn" type="button">Ask</button>
-        <button class="focusable action" id="nextBtn" type="button">Next</button>
-      </nav>
     </main>
 
     <script src="script.js"></script>
