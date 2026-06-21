@@ -5,49 +5,45 @@
     <meta name="viewport" content="width=600, height=600, initial-scale=1.0, user-scalable=no" />
     <meta
       name="description"
-      content="A Meta Ray-Ban Display web app for checking how a chair affects room layout, VR space, and pet safety."
+      content="A Meta Ray-Ban Display prototype that simulates asking Meta for an opinion about a chair."
     />
     <meta name="mrbd-web-app-capable" content="yes" />
-    <title>Future Footprint</title>
+    <title>Chair Sense</title>
     <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="app" aria-label="Future Footprint spatial recommendation">
-      <section class="hud" aria-live="polite">
+    <main class="app" aria-label="Chair Sense prototype">
+      <header class="topbar">
         <span id="clock">--:--</span>
-        <strong>Future Footprint</strong>
-        <span id="stepIndex">1/6</span>
-      </section>
+        <strong>Chair Sense</strong>
+        <span id="stepCount">1/5</span>
+      </header>
 
-      <section class="viewport" id="viewport">
-        <div class="room-map" aria-hidden="true">
-          <span class="zone desk">Desk</span>
-          <span class="zone sofa">Sofa</span>
-          <span class="zone window">Window</span>
-          <span class="vr-area"></span>
-          <span class="pet-path"></span>
-          <span class="chair-dot" id="chairDot"></span>
-          <span class="risk-ring" id="riskRing"></span>
+      <section id="scene" class="scene state-idle" aria-live="polite">
+        <img class="capture" src="assets/chair-capture.jpg" alt="Captured lounge chair in a showroom" />
+        <div class="shade"></div>
+        <div class="reticle" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
+        <div class="scan" aria-hidden="true"></div>
 
-        <article class="card">
-          <p class="eyebrow" id="eyebrow">Ready</p>
-          <h1 id="title">Check the chair before buying</h1>
-          <p id="copy">
-            This glasses app compares the chair footprint with your room, VR area, and pet routes.
-          </p>
-          <ul id="facts" class="facts"></ul>
-        </article>
+        <section class="response">
+          <p class="label" id="label">Standby</p>
+          <h1 id="title">Point at the chair</h1>
+          <p id="copy">"Hey Meta, what do you think about this?"</p>
+          <ul id="signals" class="signals"></ul>
+        </section>
       </section>
 
-      <nav class="actions" aria-label="Recommendations">
+      <nav class="actions" aria-label="Prototype controls">
         <button class="focusable action" id="prevBtn" type="button">Prev</button>
-        <button class="focusable action primary" id="selectBtn" type="button">Start</button>
+        <button class="focusable action primary" id="primaryBtn" type="button">Ask</button>
         <button class="focusable action" id="nextBtn" type="button">Next</button>
       </nav>
-
-      <p class="hint" id="hint">Use arrows to move. Press Enter to select.</p>
     </main>
 
     <script src="script.js"></script>

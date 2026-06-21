@@ -8,62 +8,59 @@ const DPAD = {
 
 const steps = [
   {
-    state: "state-c",
-    eyebrow: "Ready",
-    title: "Check the chair before buying",
-    copy: "Compare the chair footprint with your room, VR area, and pet routes.",
-    facts: ["84 x 82 cm footprint", "Wheeled swivel base"],
-    button: "Start"
+    state: "state-idle",
+    label: "Standby",
+    title: "Point at the chair",
+    copy: "\"Hey Meta, what do you think about this?\"",
+    signals: ["Gaze target ready", "Waiting for prompt"],
+    button: "Ask",
+    spoken: "Point at the chair and ask what do you think about this."
   },
   {
-    state: "state-a",
-    eyebrow: "Placement A",
-    title: "Desk area is risky",
-    copy: "The wheels land near Katy's usual resting spot behind the desk.",
-    facts: ["Pet risk: high", "Desk route crowded"],
-    button: "Compare"
+    state: "state-listen",
+    label: "Prompt received",
+    title: "Question understood",
+    copy: "Looking at the chair in front of you.",
+    signals: ["Intent: opinion", "Object: chair"],
+    button: "Capture",
+    spoken: "Question understood. I am looking at the chair."
   },
   {
-    state: "state-a",
-    eyebrow: "VR space",
-    title: "Open area drops 32%",
-    copy: "This placement pushes into the clear movement zone used for VR.",
-    facts: ["Before: 26.4 m2", "After: 17.9 m2"],
-    button: "Next option"
+    state: "state-capture",
+    label: "Simulated capture",
+    title: "Chair framed",
+    copy: "Photo proxy locked for this Web App prototype.",
+    signals: ["Full chair visible", "Base and wheels seen"],
+    button: "Analyze",
+    spoken: "The chair is framed. I can see the base and wheels."
   },
   {
-    state: "state-b",
-    eyebrow: "Placement B",
-    title: "Sofa side is only okay",
-    copy: "It looks natural, but it still creates a tight route around the rug.",
-    facts: ["Visual fit: good", "Route: pinched"],
-    button: "Next option"
+    state: "state-analyze",
+    label: "Analysis",
+    title: "Large, soft, wheeled",
+    copy: "Comfort looks strong. The rolling base is the thing to think about.",
+    signals: ["Comfort: high", "Movement risk: medium"],
+    button: "Answer",
+    spoken: "It looks comfortable, but the rolling base changes the recommendation."
   },
   {
-    state: "state-c",
-    eyebrow: "Placement C",
-    title: "Window side is best",
-    copy: "It preserves the VR zone and keeps the desk area clear for Katy.",
-    facts: ["VR zone preserved", "Pet route safer"],
-    button: "Recommend"
-  },
-  {
-    state: "state-c",
-    eyebrow: "Recommendation",
-    title: "Buy it if it goes by the window",
-    copy: "The chair fits your room, but placement matters because it has wheels.",
-    facts: ["Best option: window", "Avoid: desk area"],
-    button: "Restart"
+    state: "state-answer",
+    label: "Voice answer",
+    title: "Yes, with placement care",
+    copy: "It suits the room if it stays away from tight desk and pet routes.",
+    signals: ["Buy: maybe yes", "Place: open area"],
+    button: "Speak",
+    spoken: "I like it, but only if you place it in an open area. The wheels make tight routes risky."
   }
 ];
 
-const viewport = document.getElementById("viewport");
-const eyebrow = document.getElementById("eyebrow");
+const scene = document.getElementById("scene");
+const label = document.getElementById("label");
 const title = document.getElementById("title");
 const copy = document.getElementById("copy");
-const facts = document.getElementById("facts");
-const stepIndex = document.getElementById("stepIndex");
-const selectBtn = document.getElementById("selectBtn");
+const signals = document.getElementById("signals");
+const stepCount = document.getElementById("stepCount");
+const primaryBtn = document.getElementById("primaryBtn");
 const nextBtn = document.getElementById("nextBtn");
 const prevBtn = document.getElementById("prevBtn");
 const clock = document.getElementById("clock");
@@ -80,19 +77,18 @@ function renderStep() {
   currentStep = clampStep(currentStep);
   const step = steps[currentStep];
 
-  viewport.classList.remove("state-a", "state-b", "state-c");
-  viewport.classList.add(step.state);
-  eyebrow.textContent = step.eyebrow;
+  scene.className = `scene ${step.state}`;
+  label.textContent = step.label;
   title.textContent = step.title;
   copy.textContent = step.copy;
-  stepIndex.textContent = `${currentStep + 1}/${steps.length}`;
-  selectBtn.textContent = step.button;
+  stepCount.textContent = `${currentStep + 1}/${steps.length}`;
+  primaryBtn.textContent = step.button;
 
-  facts.innerHTML = "";
-  step.facts.forEach((fact) => {
+  signals.innerHTML = "";
+  step.signals.forEach((signal) => {
     const item = document.createElement("li");
-    item.textContent = fact;
-    facts.appendChild(item);
+    item.textContent = signal;
+    signals.appendChild(item);
   });
 }
 
@@ -106,13 +102,25 @@ function prevStep() {
   renderStep();
 }
 
+function speakCurrentStep() {
+  const text = steps[currentStep].spoken;
+  if (!("speechSynthesis" in window)) return;
+
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.rate = 1.03;
+  utterance.pitch = 1;
+  window.speechSynthesis.speak(utterance);
+}
+
 function activatePrimary() {
   if (currentStep === steps.length - 1) {
-    currentStep = 0;
-    renderStep();
+    speakCurrentStep();
     return;
   }
+
   nextStep();
+  speakCurrentStep();
 }
 
 function getFocusables() {
@@ -161,7 +169,7 @@ document.addEventListener("keydown", (event) => {
 
 prevBtn.addEventListener("click", prevStep);
 nextBtn.addEventListener("click", nextStep);
-selectBtn.addEventListener("click", activatePrimary);
+primaryBtn.addEventListener("click", activatePrimary);
 
 function updateClock() {
   clock.textContent = new Date().toLocaleTimeString([], {
@@ -173,4 +181,4 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 renderStep();
-selectBtn.focus();
+primaryBtn.focus();
