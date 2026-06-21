@@ -5,31 +5,29 @@
     <meta name="viewport" content="width=600, height=600, initial-scale=1.0, user-scalable=no" />
     <meta
       name="description"
-      content="A Meta Ray-Ban Display prototype that fakes a chair photo capture and analysis flow."
+      content="A visual-only Meta Ray-Ban Display storyboard prototype for chair analysis."
     />
     <meta name="mrbd-web-app-capable" content="yes" />
-    <title>Chair Sense</title>
+    <title>The Future Footprint</title>
     <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main id="app" class="app state-idle" aria-label="Chair Sense fake capture prototype" aria-live="polite">
-      <img class="capture" src="assets/user-chair-capture.jpg" alt="Simulated captured photo of the chair" />
-      <div class="flash" aria-hidden="true"></div>
-      <div class="reticle" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div class="scan" aria-hidden="true"></div>
+    <main id="app" class="app stage-idle" aria-label="The Future Footprint visual storyboard">
+      <img class="frame frame-chair" src="assets/story-chair.jpg" alt="" aria-hidden="true" />
+      <img class="frame frame-scan" src="assets/story-scan.jpg" alt="" aria-hidden="true" />
+      <img class="frame frame-measure" src="assets/story-measure.jpg" alt="" aria-hidden="true" />
 
-      <section class="panel" aria-label="Analysis response">
-        <p class="label" id="label">Captured</p>
-        <h1 id="title">Looking at the chair</h1>
-        <p id="copy">Using the photo now.</p>
-        <ul id="signals" class="signals"></ul>
-      </section>
+      <div class="flash" aria-hidden="true"></div>
+      <div class="room-grid" aria-hidden="true"></div>
+      <div class="room-box" aria-hidden="true"></div>
+      <div class="chair-ghost" aria-hidden="true"></div>
+      <div class="vr-open" aria-hidden="true"></div>
+      <div class="vr-blocked" aria-hidden="true"></div>
+      <div class="path path-katy" aria-hidden="true"></div>
+      <div class="path path-nelly" aria-hidden="true"></div>
+      <div class="safe-placement" aria-hidden="true"></div>
+      <div class="final-glow" aria-hidden="true"></div>
     </main>
 
     <script src="script.js"></script>
